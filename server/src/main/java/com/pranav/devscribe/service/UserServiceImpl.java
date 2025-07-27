@@ -1,5 +1,6 @@
 package com.pranav.devscribe.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,15 +11,14 @@ import com.pranav.devscribe.dto.ApiResponse;
 import com.pranav.devscribe.dto.UserRegisterRequest;
 import com.pranav.devscribe.entities.User;
 
-import lombok.AllArgsConstructor;
-
-
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public ApiResponse registerUser(UserRegisterRequest transientUser) {
@@ -27,7 +27,9 @@ public class UserServiceImpl implements UserService {
 			throw new ApiException("Duplicate Email - Register User Failed");
 
 		// save new user
-		User userEntity = new User(transientUser.getFullname(), transientUser.getEmail(), transientUser.getPassword(), transientUser.getPhone());
+//		User userEntity = new User(transientUser.getFullname(), transientUser.getEmail(), transientUser.getPassword(), transientUser.getPhone());
+		// using Model Mapper
+		User userEntity = modelMapper.map(transientUser, User.class);
 		User persistentUser = userDao.save(userEntity);
 		return new ApiResponse("Added new User with User Id: - " + persistentUser.getId());
 	}
