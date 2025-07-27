@@ -14,6 +14,8 @@ import com.pranav.devscribe.dto.UserRegisterRequest;
 import com.pranav.devscribe.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,5 +48,11 @@ public class UserController {
 	@Operation(description = "Update User Details By Id")
 	public ResponseEntity<?> updateUserDetails(@PathVariable Long userId, @RequestBody UserRegisterRequest updatedUser){
 		return ResponseEntity.ok(userService.updateUserDetails(userId, updatedUser));
+	}
+	
+	@DeleteMapping("/{userId}")
+	@Operation(description = "Delete User by Id")
+	public ResponseEntity<?> deleteUser(@PathVariable Long userId){
+		return ResponseEntity.ok(userService.deleteUser(userId));
 	}
 }

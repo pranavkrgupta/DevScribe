@@ -12,4 +12,6 @@ public interface UserService {
 
 	public ApiResponse updateUserDetails(Long userId, UserRegisterRequest updatedUser);
 
+	public ApiResponse deleteUser(Long userId);
+
 }

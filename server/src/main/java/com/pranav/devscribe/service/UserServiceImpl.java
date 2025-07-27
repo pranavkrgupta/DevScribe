@@ -51,4 +51,11 @@ public class UserServiceImpl implements UserService {
 		return new ApiResponse("Update User success.");
 	}
 
+	@Override
+	public ApiResponse deleteUser(Long userId) {
+		User entity = userDao.findById(userId).orElseThrow(()-> new ResourceNotFoundException("Invalid User Id - Delete User Failed"));
+		userDao.delete(entity);
+		return new ApiResponse("User with Id "+userId+" Deleted Successfully");
+	}
+
 }
