@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pranav.devscribe.cutomExceptions.ApiException;
+import com.pranav.devscribe.cutomExceptions.ResourceNotFoundException;
 import com.pranav.devscribe.dao.UserDao;
 import com.pranav.devscribe.dto.ApiResponse;
+import com.pranav.devscribe.dto.UserDetailsResponseDTO;
 import com.pranav.devscribe.dto.UserRegisterRequest;
 import com.pranav.devscribe.entities.User;
 
@@ -32,6 +34,12 @@ public class UserServiceImpl implements UserService {
 		User userEntity = modelMapper.map(transientUser, User.class);
 		User persistentUser = userDao.save(userEntity);
 		return new ApiResponse("Added new User with User Id: - " + persistentUser.getId());
+	}
+
+	@Override
+	public UserDetailsResponseDTO getUserDetails(Long userId) {
+		User entity = userDao.findById(userId).orElseThrow(()-> new ResourceNotFoundException("Invalid User Id"));
+		return modelMapper.map(entity, UserDetailsResponseDTO.class);
 	}
 
 }
