@@ -1,6 +1,7 @@
 package com.pranav.devscribe.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,28 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public CategoryResponseDTO getCategoryDetails(Long categoryId) {
-		Category entity = categoryDao.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category Not Found by Id - "+categoryId));
+		Category entity = categoryDao.findById(categoryId)
+				.orElseThrow(() -> new ResourceNotFoundException("Category Not Found by Id - " + categoryId));
 		return modelMapper.map(entity, CategoryResponseDTO.class);
+	}
+
+	@Override
+	public ApiResponse updateCategoryDetails(Long categoryId, CategoryRequestDTO updatedCategory) {
+		Category entity = categoryDao.findById(categoryId)
+				.orElseThrow(() -> new ResourceNotFoundException("Category Not Found by Id - " + categoryId));
+		Optional<Category> categoryWithSameTitle = categoryDao.findByTitle(updatedCategory.getTitle());
+		if (categoryWithSameTitle.isPresent() && categoryWithSameTitle.get().getId() != categoryId)
+			throw new ApiException("Duplicate Title - Update Failed");
+		modelMapper.map(updatedCategory, entity);
+		return new ApiResponse("Category with Id " + categoryId + " Updated Successfully");
+	}
+
+	@Override
+	public ApiResponse deleteCategory(Long categoryId) {
+		Category entity = categoryDao.findById(categoryId)
+				.orElseThrow(() -> new ResourceNotFoundException("Category Not Found by Id - " + categoryId));
+		categoryDao.delete(entity);
+		return new ApiResponse("Category with Id " + categoryId + " Deleted Successfully");
 	}
 
 }

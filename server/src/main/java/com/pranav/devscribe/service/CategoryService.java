@@ -14,6 +14,10 @@ public interface CategoryService  {
 
 	CategoryResponseDTO getCategoryDetails(Long categoryId);
 
+	ApiResponse updateCategoryDetails(Long categoryId, CategoryRequestDTO updatedCategory);
+
+	ApiResponse deleteCategory(Long categoryId);
+
 	
 
 }
