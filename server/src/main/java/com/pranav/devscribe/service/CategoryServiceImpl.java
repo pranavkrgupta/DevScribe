@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pranav.devscribe.cutomExceptions.ApiException;
+import com.pranav.devscribe.cutomExceptions.ResourceNotFoundException;
 import com.pranav.devscribe.dao.CategoryDao;
 import com.pranav.devscribe.dto.ApiResponse;
 import com.pranav.devscribe.dto.CategoryRequestDTO;
@@ -34,7 +35,14 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryResponseDTO> getCategories() {
-		return categoryDao.findAll().stream().map(catgeory -> modelMapper.map(catgeory, CategoryResponseDTO.class)).toList();
+		return categoryDao.findAll().stream().map(catgeory -> modelMapper.map(catgeory, CategoryResponseDTO.class))
+				.toList();
+	}
+
+	@Override
+	public CategoryResponseDTO getCategoryDetails(Long categoryId) {
+		Category entity = categoryDao.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category Not Found by Id - "+categoryId));
+		return modelMapper.map(entity, CategoryResponseDTO.class);
 	}
 
 }

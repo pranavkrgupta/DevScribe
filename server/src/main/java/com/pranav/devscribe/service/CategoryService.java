@@ -12,6 +12,8 @@ public interface CategoryService  {
 
 	List<CategoryResponseDTO> getCategories();
 
+	CategoryResponseDTO getCategoryDetails(Long categoryId);
+
 	
 
 }
