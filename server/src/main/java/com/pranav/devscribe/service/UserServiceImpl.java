@@ -42,4 +42,13 @@ public class UserServiceImpl implements UserService {
 		return modelMapper.map(entity, UserDetailsResponseDTO.class);
 	}
 
+	@Override
+	public ApiResponse updateUserDetails(Long userId, UserRegisterRequest updatedUser) {
+		if(userDao.existsByEmail(updatedUser.getEmail()))
+			throw new ApiException("Duplicate Email - Update User failed");
+		User entity = userDao.findById(userId).orElseThrow(()-> new ResourceNotFoundException("Invalid User Id - Update User Failed"));
+		modelMapper.map(updatedUser, entity);
+		return new ApiResponse("Update User success.");
+	}
+
 }

@@ -8,6 +8,8 @@ public interface UserService {
 	
 	public ApiResponse registerUser(UserRegisterRequest registerRequest);
 
-	UserDetailsResponseDTO getUserDetails(Long userId);
+	public UserDetailsResponseDTO getUserDetails(Long userId);
+
+	public ApiResponse updateUserDetails(Long userId, UserRegisterRequest updatedUser);
 
 }
