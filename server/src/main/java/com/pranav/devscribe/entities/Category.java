@@ -11,12 +11,14 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="Category")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString(callSuper = true, exclude = "blogs")
 public class Category extends BaseEntity {
 	
 	@Column(name = "title", length = 100)

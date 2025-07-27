@@ -8,15 +8,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="User")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString(callSuper = true, exclude = "blogs")
 public class User extends BaseEntity{
 	@Column(name = "fullName", length = 20)
 	private String fullname;
@@ -31,5 +34,13 @@ public class User extends BaseEntity{
 	private String phone;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Blog> blogs = new ArrayList<>(); 
+	private List<Blog> blogs = new ArrayList<>();
+
+	public User(String fullname, String email, String password, String phone) {
+		super();
+		this.fullname = fullname;
+		this.email = email;
+		this.password = password;
+		this.phone = phone;
+	} 
 }
