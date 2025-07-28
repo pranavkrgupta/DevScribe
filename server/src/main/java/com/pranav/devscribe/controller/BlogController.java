@@ -3,6 +3,7 @@ package com.pranav.devscribe.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,5 +47,11 @@ public class BlogController {
 	@Operation(description = "Update Blog By Id")
 	public ResponseEntity<?> updateBlogById(@PathVariable Long blogId, @RequestParam Long userId, @RequestBody BlogRequestDTO blogRequestDTO) {
 		return new ResponseEntity<>(blogService.updateBlogById(blogId, userId, blogRequestDTO), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{blogId}")
+	@Operation(description = "Delete Blog By Id")
+	public ResponseEntity<?> deleteBlogById(@PathVariable Long blogId, @RequestParam Long userId){
+		return new ResponseEntity<>(blogService.deleteBlogById(blogId, userId), HttpStatus.OK);
 	}
 }

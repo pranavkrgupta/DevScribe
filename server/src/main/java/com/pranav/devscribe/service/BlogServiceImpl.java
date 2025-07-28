@@ -60,7 +60,8 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public BlogResponseDTO getBlogById(Long blogId) {
-		Blog entity = blogDao.findById(blogId).orElseThrow(() -> new ResourceNotFoundException("Blog Id not found"));
+		Blog entity = blogDao.findById(blogId)
+				.orElseThrow(() -> new ResourceNotFoundException("Blog not found with ID: " + blogId));
 		BlogResponseDTO dto = modelMapper.map(entity, BlogResponseDTO.class);
 		// dto.setUserFullName(entity.getUser().getFullname());
 		// dto.setCategoryTitle(entity.getCategory().getTitle());
@@ -70,18 +71,31 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public ApiResponse updateBlogById(Long blogId, Long userId, BlogRequestDTO blogRequestDTO) {
-		// User user = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Id not found"));
-		Blog blog = blogDao.findById(blogId).orElseThrow(() -> new ResourceNotFoundException("Blog Id not found"));
-		
-		// Only verify the blog belongs to the user (optional)
-	    if (blog.getUser().getId()!= userId) {
-	        throw new ApiException("You cannot update this blog");
-	    }
+		Blog blog = blogDao.findById(blogId)
+				.orElseThrow(() -> new ResourceNotFoundException("Blog not found with ID: " + blogId));
+
+		// Only verify the blog belongs to the user
+		if (blog.getUser().getId() != userId) {
+			throw new ApiException("You cannot update this blog");
+		}
 		Category category = categoryDao.getReferenceById(blogRequestDTO.getCategory_Id());
 		blog.setTitle(blogRequestDTO.getTitle());
 		blog.setContents(blogRequestDTO.getContents());
 		blog.setCategory(category);
 		return new ApiResponse("Update Succesfully");
+	}
+
+	@Override
+	public ApiResponse deleteBlogById(Long blogId, Long userId) {
+		Blog blog = blogDao.findById(blogId)
+				.orElseThrow(() -> new ResourceNotFoundException("Blog not found with ID: " + blogId));
+
+		// Only verify the blog belongs to the user
+		if (blog.getUser().getId() != userId) {
+			throw new ApiException("You are not authorized to delete this blog");
+		}
+		blogDao.delete(blog);
+		return new ApiResponse("Blog deleted successfully");
 	}
 
 }
