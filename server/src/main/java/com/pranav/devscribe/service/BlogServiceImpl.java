@@ -52,8 +52,10 @@ public class BlogServiceImpl implements BlogService {
 				.stream()
 				.map(blog -> {
 					BlogResponseDTO dto = modelMapper.map(blog, BlogResponseDTO.class);
-					dto.setUserName(blog.getUser().getFullname());
-					dto.setCategoryTitle(blog.getCategory().getTitle());
+					// dto.setUserName(blog.getUser().getFullname());
+					// dto.setCategoryTitle(blog.getCategory().getTitle());
+					// It is automatically done by modelMapper
+					// default type is Eager for @ManyToOne and 
 					return dto;
 				}).toList();
 	}
@@ -62,8 +64,11 @@ public class BlogServiceImpl implements BlogService {
 	public BlogResponseDTO getBlogById(Long blogId) {
 		Blog entity = blogDao.findById(blogId).orElseThrow(()-> new ResourceNotFoundException("Blog Id not found"));
 		BlogResponseDTO dto = modelMapper.map(entity, BlogResponseDTO.class);
-		dto.setUserName(entity.getUser().getFullname());
+		// dto.setUserFullName(entity.getUser().getFullname());
+		// dto.setCategoryTitle(entity.getCategory().getTitle());
+		// It is automatically done by modelMapper
 		return dto;
 	}
-
+	
+	
 }
