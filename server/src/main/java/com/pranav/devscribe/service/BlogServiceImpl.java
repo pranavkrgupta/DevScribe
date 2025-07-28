@@ -58,4 +58,12 @@ public class BlogServiceImpl implements BlogService {
 				}).toList();
 	}
 
+	@Override
+	public BlogResponseDTO getBlogById(Long blogId) {
+		Blog entity = blogDao.findById(blogId).orElseThrow(()-> new ResourceNotFoundException("Blog Id not found"));
+		BlogResponseDTO dto = modelMapper.map(entity, BlogResponseDTO.class);
+		dto.setUserName(entity.getUser().getFullname());
+		return dto;
+	}
+
 }

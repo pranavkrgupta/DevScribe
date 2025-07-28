@@ -12,4 +12,6 @@ public interface BlogService {
 
 	List<BlogResponseDTO> getAllBlogs();
 
+	BlogResponseDTO getBlogById(Long blogId);
+
 }
