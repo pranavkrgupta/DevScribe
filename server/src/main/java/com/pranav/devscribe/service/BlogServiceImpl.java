@@ -98,4 +98,10 @@ public class BlogServiceImpl implements BlogService {
 		return new ApiResponse("Blog deleted successfully");
 	}
 
+	@Override
+	public List<BlogResponseDTO> searchBlogsByTitle(String title) {
+		List<Blog> blogs = blogDao.findByTitleContainingIgnoreCase(title);
+		return blogs.stream().map(blog -> modelMapper.map(blog, BlogResponseDTO.class)).toList();
+	}
+
 }

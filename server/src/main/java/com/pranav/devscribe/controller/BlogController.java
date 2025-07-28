@@ -45,13 +45,20 @@ public class BlogController {
 
 	@PutMapping("/{blogId}")
 	@Operation(description = "Update Blog By Id")
-	public ResponseEntity<?> updateBlogById(@PathVariable Long blogId, @RequestParam Long userId, @RequestBody BlogRequestDTO blogRequestDTO) {
+	public ResponseEntity<?> updateBlogById(@PathVariable Long blogId, @RequestParam Long userId,
+			@RequestBody BlogRequestDTO blogRequestDTO) {
 		return new ResponseEntity<>(blogService.updateBlogById(blogId, userId, blogRequestDTO), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{blogId}")
 	@Operation(description = "Delete Blog By Id")
-	public ResponseEntity<?> deleteBlogById(@PathVariable Long blogId, @RequestParam Long userId){
+	public ResponseEntity<?> deleteBlogById(@PathVariable Long blogId, @RequestParam Long userId) {
 		return new ResponseEntity<>(blogService.deleteBlogById(blogId, userId), HttpStatus.OK);
+	}
+
+	@GetMapping("/search")
+	@Operation(description = "Search Blogs By title")
+	public ResponseEntity<?> searchBlogsByTitle(@RequestParam String title) {
+		return new ResponseEntity<>(blogService.searchBlogsByTitle(title), HttpStatus.OK);
 	}
 }

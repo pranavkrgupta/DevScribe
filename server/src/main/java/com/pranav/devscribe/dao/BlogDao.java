@@ -11,4 +11,7 @@ public interface BlogDao extends JpaRepository<Blog, Long>{
 	
     @EntityGraph(attributePaths = {"user", "category"})
     List<Blog> findAll();
+
+    @EntityGraph(attributePaths = {"user", "category"})
+	List<Blog> findByTitleContainingIgnoreCase(String title);
 }

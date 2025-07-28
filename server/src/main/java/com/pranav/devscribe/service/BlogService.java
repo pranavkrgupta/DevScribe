@@ -18,4 +18,6 @@ public interface BlogService {
 
 	ApiResponse deleteBlogById(Long blogId, Long userId);
 
+	List<BlogResponseDTO> searchBlogsByTitle(String title);
+
 }
