@@ -12,7 +12,7 @@ public class BlogResponseDTO {
 	private Long id;
 	private String title;
 	private String contents;
-	private String userName;
+	private String userFullName;
 	private String categoryTitle;
 	private LocalDate creationDate;
 	private LocalDateTime updatedOn;
