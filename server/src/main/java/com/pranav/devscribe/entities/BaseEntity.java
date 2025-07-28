@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,13 +27,16 @@ public class BaseEntity {
 	@Id
 	@Column(name= "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty(access = Access.READ_ONLY)
 	private long id;
 	
 	@CreationTimestamp
 	@Column(name = "Creation_Date")
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate creationDate;
 	
 	@UpdateTimestamp
 	@Column(name = "Updated_On")
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDateTime updatedOn;
 }
