@@ -14,4 +14,6 @@ public interface BlogService {
 
 	BlogResponseDTO getBlogById(Long blogId);
 
+	ApiResponse updateBlogById(Long blogId, Long userId, BlogRequestDTO blogRequestDTO);
+
 }

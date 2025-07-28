@@ -2,7 +2,7 @@
     h3{
         color: red;
         font-weight: bold;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid red;
         padding-bottom: 5px;
     }
 </style>
@@ -33,3 +33,19 @@ This tells Hibernate: “When you fetch blogs, also fetch the associated user an
 List<Blog> findAllWithUserAndCategory();
 
 ```
+
+### Avoiding unnecessary database SELECTs when you only need to refer to an entity by its ID (not fetch its full data).
+```java
+Category category = categoryDao.getReferenceById(blogRequestDTO.getCategory_Id());
+```
+- The object is a proxy with only the ID field.
+- When blog is saved, Hibernate only uses the ID of category for the update query.
+
+**Without `getReferenceById()` (using `findById()`):**
+```java
+Category category = categoryDao.findById(blogRequestDTO.getCategory_Id()).orElseThrow(...);
+blog.setCategory(category);
+```
+- This triggers: `SELECT * FROM category WHERE id = ?;`
+- But I just wanted to assign the Category to the blog — i didn’t actually use the category's fields like title or description. So this query was wasted.
+
