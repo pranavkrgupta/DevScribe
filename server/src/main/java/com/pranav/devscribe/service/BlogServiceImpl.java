@@ -104,4 +104,12 @@ public class BlogServiceImpl implements BlogService {
 		return blogs.stream().map(blog -> modelMapper.map(blog, BlogResponseDTO.class)).toList();
 	}
 
+	@Override
+	public List<BlogResponseDTO> getBlogsByCatgeory(Long categoryId) {
+		List<Blog> blogs = blogDao.findByCategoryId(categoryId);
+		return blogs.stream()
+		        .map(blog -> modelMapper.map(blog, BlogResponseDTO.class))
+		        .toList();
+	}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.pranav.devscribe.entities.Blog;
+import com.pranav.devscribe.entities.Category;
 
 public interface BlogDao extends JpaRepository<Blog, Long>{
 	
@@ -19,5 +20,9 @@ public interface BlogDao extends JpaRepository<Blog, Long>{
     
     @Query("SELECT b FROM Blog b JOIN FETCH b.category JOIN FETCH b.user WHERE UPPER(b.title) LIKE UPPER(CONCAT('%', :title, '%'))")
     List<Blog> searchBlogsByTitle(@Param("title") String title);
+
+    @EntityGraph(attributePaths = {"user", "category"})
+	List<Blog> findByCategoryId(Long categoryId);
+
 
 }

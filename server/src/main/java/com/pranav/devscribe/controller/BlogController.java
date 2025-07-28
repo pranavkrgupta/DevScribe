@@ -61,4 +61,9 @@ public class BlogController {
 	public ResponseEntity<?> searchBlogsByTitle(@RequestParam String title) {
 		return new ResponseEntity<>(blogService.searchBlogsByTitle(title), HttpStatus.OK);
 	}
+	
+	@GetMapping("/category/{categoryId}")
+	public ResponseEntity<?> getBlogsByCatgeory(@PathVariable Long categoryId){
+		return new ResponseEntity<>(blogService.getBlogsByCatgeory(categoryId), HttpStatus.OK);
+	}
 }

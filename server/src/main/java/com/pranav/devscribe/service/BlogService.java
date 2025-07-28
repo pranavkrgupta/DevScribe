@@ -20,4 +20,6 @@ public interface BlogService {
 
 	List<BlogResponseDTO> searchBlogsByTitle(String title);
 
+	List<BlogResponseDTO> getBlogsByCatgeory(Long categoryId);
+
 }
