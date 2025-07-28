@@ -100,7 +100,7 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public List<BlogResponseDTO> searchBlogsByTitle(String title) {
-		List<Blog> blogs = blogDao.findByTitleContainingIgnoreCase(title);
+		List<Blog> blogs = blogDao.searchBlogsByTitle(title);
 		return blogs.stream().map(blog -> modelMapper.map(blog, BlogResponseDTO.class)).toList();
 	}
 
