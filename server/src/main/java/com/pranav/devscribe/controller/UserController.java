@@ -20,11 +20,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -37,22 +36,29 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiException(e.getMessage()));
 		}
 	}
-	
+
 	@GetMapping("/{userId}")
 	@Operation(description = "Get User Details by Id")
-	public ResponseEntity<?> getUserDetails(@PathVariable Long userId){
+	public ResponseEntity<?> getUserDetails(@PathVariable Long userId) {
 		return ResponseEntity.ok(userService.getUserDetails(userId));
 	}
-	
+
 	@PutMapping("/{userId}")
 	@Operation(description = "Update User Details By Id")
-	public ResponseEntity<?> updateUserDetails(@PathVariable Long userId, @RequestBody UserRegisterRequest updatedUser){
+	public ResponseEntity<?> updateUserDetails(@PathVariable Long userId,
+			@RequestBody UserRegisterRequest updatedUser) {
 		return ResponseEntity.ok(userService.updateUserDetails(userId, updatedUser));
 	}
-	
+
 	@DeleteMapping("/{userId}")
 	@Operation(description = "Delete User by Id")
-	public ResponseEntity<?> deleteUser(@PathVariable Long userId){
+	public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
 		return ResponseEntity.ok(userService.deleteUser(userId));
+	}
+
+	@GetMapping("/{userId}/blogs")
+	@Operation(description = "Get all blogs by a user")
+	public ResponseEntity<?> getBlogsByUser(@PathVariable Long userId) {
+		return new ResponseEntity<>(userService.getBlogsByUserId(userId), HttpStatus.OK);
 	}
 }

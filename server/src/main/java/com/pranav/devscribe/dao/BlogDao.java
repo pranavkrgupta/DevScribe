@@ -24,5 +24,9 @@ public interface BlogDao extends JpaRepository<Blog, Long>{
     @EntityGraph(attributePaths = {"user", "category"})
 	List<Blog> findByCategoryId(Long categoryId);
 
+    @EntityGraph(attributePaths = {"user", "category"})
+	List<Blog> findByUserId(Long userId);
+
+
 
 }
